@@ -71,12 +71,12 @@
     imageCounterWrapper.appendChild(counterButtons);
 
     const decrementButton = document.createElement("button");
-    decrementButton.textContent = "Left";
+    decrementButton.textContent = "-";
     decrementButton.onclick = () => decrementCounter(index);
     counterButtons.appendChild(decrementButton);
 
     const incrementButton = document.createElement("button");
-    incrementButton.textContent = "Right";
+    incrementButton.textContent = "+";
     incrementButton.onclick = () => incrementCounter(index);
     counterButtons.appendChild(incrementButton);
 
