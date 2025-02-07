@@ -5,62 +5,97 @@
 <style>
   body {
     font-family: sans-serif;
-    text-align: center; /* Center the content */
+    text-align: center;
   }
-  #image-container {
-      display: flex;
-      justify-content: center; /* Horizontally center the image and buttons */
-      align-items: center; /* Vertically center the image and buttons */
-      flex-direction: column; /* Stack image and buttons vertically */
+  .image-container {
+    display: inline-block; /* Arrange containers horizontally */
+    margin: 20px; /* Space between containers */
   }
-  #counter-buttons {
-      display: flex; /* Arrange buttons horizontally */
-      margin-top: 10px; /* Add some space between image and buttons */
-  }
+  .image-counter-wrapper {
+        display: flex;
+        flex-direction: column; /* Stack image and buttons */
+        align-items: center;
+    }
   img {
-    max-width: 500px; /* Adjust as needed */
+    max-width: 300px; /* Adjust as needed */
     height: auto;
+  }
+  .counter-buttons {
+    display: flex;
+    margin-top: 10px;
   }
   button {
     padding: 10px 20px;
-    margin: 0 10px; /* Space between buttons */
+    margin: 0 10px;
     font-size: 16px;
-    cursor: pointer; /* Make the buttons look clickable */
+    cursor: pointer;
   }
-  #counter {
-      margin-top: 20px; /* Space between buttons and counter */
-      font-size: 20px;
+  .counter {
+    margin-top: 10px;
+    font-size: 18px;
   }
 </style>
 </head>
 <body>
 
-<div id="image-container">
-  <img src="your-image.jpg" alt="Your Image">  <div id="counter-buttons">
-        <button onclick="decrementCounter()">Left</button>
-        <button onclick="incrementCounter()">Right</button>
-    </div>
-</div>
+<div id="image-area"></div>  <script>
+  const imageData = [
+    { src: "image1.jpg", alt: "Image 1", counter: 0 },
+    { src: "image2.jpg", alt: "Image 2", counter: 0 },
+    { src: "image3.jpg", alt: "Image 3", counter: 0 },
+        // Add more image objects here as needed
+  ];
 
+  const imageArea = document.getElementById("image-area");
 
-<div id="counter">Counter: 0</div>
+  imageData.forEach((image, index) => {
+    const container = document.createElement("div");
+    container.className = "image-container";
 
-<script>
-  let counter = 0;
-  const counterDisplay = document.getElementById("counter");
+    const imageCounterWrapper = document.createElement("div"); // Wrapper for image and counter
+    imageCounterWrapper.className = "image-counter-wrapper";
+    container.appendChild(imageCounterWrapper);
 
-  function incrementCounter() {
-    counter++;
-    updateCounterDisplay();
+    const imgElement = document.createElement("img");
+    imgElement.src = image.src;
+    imgElement.alt = image.alt;
+    imageCounterWrapper.appendChild(imgElement);
+
+    const counterButtons = document.createElement("div");
+    counterButtons.className = "counter-buttons";
+    imageCounterWrapper.appendChild(counterButtons);
+
+    const decrementButton = document.createElement("button");
+    decrementButton.textContent = "Left";
+    decrementButton.onclick = () => decrementCounter(index);
+    counterButtons.appendChild(decrementButton);
+
+    const incrementButton = document.createElement("button");
+    incrementButton.textContent = "Right";
+    incrementButton.onclick = () => incrementCounter(index);
+    counterButtons.appendChild(incrementButton);
+
+    const counterDisplay = document.createElement("div");
+    counterDisplay.className = "counter";
+    counterDisplay.textContent = "Counter: " + image.counter;
+    imageCounterWrapper.appendChild(counterDisplay);
+
+    imageArea.appendChild(container);
+  });
+
+  function incrementCounter(index) {
+    imageData[index].counter++;
+    updateCounterDisplay(index);
   }
 
-  function decrementCounter() {
-    counter--;
-    updateCounterDisplay();
+  function decrementCounter(index) {
+    imageData[index].counter--;
+    updateCounterDisplay(index);
   }
 
-  function updateCounterDisplay() {
-    counterDisplay.textContent = "Counter: " + counter;
+  function updateCounterDisplay(index) {
+    const counterDisplay = imageArea.children[index].querySelector(".counter");
+    counterDisplay.textContent = "Counter: " + imageData[index].counter;
   }
 </script>
 
