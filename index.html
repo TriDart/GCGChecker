@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GCG Checker</title>
+<style>
+  body {
+    font-family: sans-serif;
+    text-align: center; /* Center the content */
+  }
+  #image-container {
+      display: flex;
+      justify-content: center; /* Horizontally center the image and buttons */
+      align-items: center; /* Vertically center the image and buttons */
+      flex-direction: column; /* Stack image and buttons vertically */
+  }
+  #counter-buttons {
+      display: flex; /* Arrange buttons horizontally */
+      margin-top: 10px; /* Add some space between image and buttons */
+  }
+  img {
+    max-width: 500px; /* Adjust as needed */
+    height: auto;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 0 10px; /* Space between buttons */
+    font-size: 16px;
+    cursor: pointer; /* Make the buttons look clickable */
+  }
+  #counter {
+      margin-top: 20px; /* Space between buttons and counter */
+      font-size: 20px;
+  }
+</style>
+</head>
+<body>
 
+<div id="image-container">
+  <img src="your-image.jpg" alt="Your Image">  <div id="counter-buttons">
+        <button onclick="decrementCounter()">Left</button>
+        <button onclick="incrementCounter()">Right</button>
+    </div>
+</div>
+
+
+<div id="counter">Counter: 0</div>
+
+<script>
+  let counter = 0;
+  const counterDisplay = document.getElementById("counter");
+
+  function incrementCounter() {
+    counter++;
+    updateCounterDisplay();
+  }
+
+  function decrementCounter() {
+    counter--;
+    updateCounterDisplay();
+  }
+
+  function updateCounterDisplay() {
+    counterDisplay.textContent = "Counter: " + counter;
+  }
+</script>
+
+</body>
+</html>
