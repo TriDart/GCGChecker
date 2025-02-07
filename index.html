@@ -49,6 +49,26 @@
   { src: "ST01-008-Trainer.png", alt: "ST01-008", counter: 0 },
   { src: "ST01-010-AmuroRay.png", alt: "ST01-010", counter: 0 },
   { src: "ST01-011-Suletta.png", alt: "ST01-011", counter: 0 },
+  { src: "ST01-011_plus-Suletta.png", alt: "ST01-011+", counter: 0 },
+  { src: "ST01-012-Hayato.png", alt: "ST01-012", counter: 0 },
+  { src: "ST01-013-Kai.png", alt: "ST01-013", counter: 0 },
+  { src: "ST01-015-WhiteBase.png", alt: "ST01-015", counter: 0 },
+  { src: "ST01-016-Asticassia.png", alt: "ST01-016", counter: 0 },
+  { src: "ST02-001-WGundam.png", alt: "ST02-001", counter: 0 },
+  { src: "ST02-001_plus-WGundam.png", alt: "ST02-001+", counter: 0 },
+  { src: "ST02-002-WGundamBM.png", alt: "ST02-002", counter: 0 },
+  { src: "ST02-005-Maganac.png", alt: "ST02-005", counter: 0 },
+  { src: "ST02-010-Heero.png", alt: "ST02-010", counter: 0 },
+  { src: "ST02-012-Trowa.png", alt: "ST02-012", counter: 0 },
+  { src: "ST02-013-Quatre.png", alt: "ST02-013", counter: 0 },
+  { src: "ST02-015-Gabriel.png", alt: "ST02-015", counter: 0 },
+  { src: "ST03-007-ZakuI.png", alt: "ST03-007", counter: 0 },
+  { src: "ST03-008-ZakuII.png", alt: "ST03-008", counter: 0 },
+  { src: "ST03-011-Char.png", alt: "ST03-011", counter: 0 },
+  { src: "ST03-011_plus-Char.png", alt: "ST03-011+", counter: 0 },
+  { src: "ST03-016-Falmel.png", alt: "ST03-016", counter: 0 },
+  { src: "ST04-001-ASGundam.png", alt: "ST04-001", counter: 0 },
+  
 ];
 
   const imageArea = document.getElementById("image-area");
@@ -100,7 +120,7 @@
 
   function updateCounterDisplay(index) {
     const counterDisplay = imageArea.children[index].querySelector(".counter");
-    counterDisplay.textContent = "Counter: " + imageData[index].counter;
+    counterDisplay.textContent = " " + imageData[index].counter;
   }
 </script>
 
