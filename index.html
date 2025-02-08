@@ -35,11 +35,79 @@
     margin-top: 10px;
     font-size: 18px;
   }
+   #search-bar {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      box-sizing: border-box; /* Include padding in width */
+  }
+
+  #filter-options {
+      display: flex;
+      flex-wrap: wrap; /* Allow filters to wrap */
+      justify-content: center; /* Center filters */
+      margin-bottom: 20px;
+  }
+
+  .filter-group {
+      margin: 10px;
+  }
+
+  .filter-group label {
+      display: block; /* Place labels above inputs */
+  }
 </style>
 </head>
 <body>
+<header>
+  </header>
 
-<div id="image-area"></div>  <script>
+<input type="text" id="search-bar" placeholder="Search...">
+
+<div id="filter-options">
+    <div class="filter-group">
+        <label for="type-filter">Type:</label>
+        <select id="type-filter">
+            <option value="">All</option>
+            <option value="action">Action</option>
+            <option value="base">Base</option>
+            <option value="pilot">Pilot</option>
+            <option value="unit">Unit</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="color-filter">Color:</label>
+        <select id="color-filter">
+            <option value="">All</option>
+            <option value="white">white</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            </select>
+    </div>
+    <div class="filter-group">
+        <label for="level-filter">Level:</label>
+        <select id="level-filter">
+            <option value="">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            </select>
+    </div>
+    <div class="filter-group">
+        <label for="cost-filter">Cost:</label>
+        <select id="cost-filter">
+            <option value="">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            </select>
+    </div>
+</div>
+
+<div id="image-area"></div>
+
+<script>
   const imageData = [
   { src: "ST01-001-Gundam.png", alt: "ST01-001", counter: 0 },
   { src: "ST01-001_plus-Gundam.png", alt: "ST01-001+", counter: 0 },
