@@ -240,17 +240,18 @@ function filterCards() {
   levelFilter.addEventListener("change", filterCards);
   costFilter.addEventListener("change", filterCards);
   
-  function incrementCounter(index) {
-    imageData[index].counter++;
-    updateCounterDisplay(index);
+  function incrementCounter(index, card) { // Receive card object
+    card.counter++; // Update the counter on the card object
+    updateCounterDisplay(index, card); // Pass the card object to updateCounterDisplay
   }
 
-  function decrementCounter(index) {
-    if (imageData[index].counter > 0) { // Check if counter is greater than 0
-      imageData[index].counter--;
-      updateCounterDisplay(index);
-    } // If the counter is already 0, nothing happens
+  function decrementCounter(index, card) { // Receive card object
+    if (card.counter > 0) {
+      card.counter--;
+      updateCounterDisplay(index, card); // Pass the card object to updateCounterDisplay
+    }
   }
+
 
   function updateCounterDisplay(index, card) { // Receive card object
     const counterDisplay = imageArea.children[index].querySelector(".counter");
