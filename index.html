@@ -79,7 +79,7 @@
         <label for="color-filter">Color:</label>
         <select id="color-filter">
             <option value="">All</option>
-            <option value="white">white</option>
+            <option value="white">White</option>
             <option value="blue">Blue</option>
             <option value="green">Green</option>
             </select>
@@ -91,6 +91,8 @@
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
             </select>
     </div>
     <div class="filter-group">
@@ -149,42 +151,77 @@
 ];
 
   const imageArea = document.getElementById("image-area");
+  const searchBar = document.getElementById("search-bar");
+  const typeFilter = document.getElementById("type-filter");
+  const colorFilter = document.getElementById("color-filter");
+  const levelFilter = document.getElementById("level-filter");
+  const costFilter = document.getElementById("cost-filter");
 
-  imageData.forEach((image, index) => {
-    const container = document.createElement("div");
-    container.className = "image-container";
+  function displayCards(cards) {
+    imageArea.innerHTML = ""; // Clear existing cards
 
-    const imageCounterWrapper = document.createElement("div"); // Wrapper for image and counter
-    imageCounterWrapper.className = "image-counter-wrapper";
-    container.appendChild(imageCounterWrapper);
+    cards.forEach((card, index) => {
+      const container = document.createElement("div");
+      container.className = "image-container";
 
-    const imgElement = document.createElement("img");
-    imgElement.src = image.src;
-    imgElement.alt = image.alt;
-    imageCounterWrapper.appendChild(imgElement);
+      const imageCounterWrapper = document.createElement("div");
+      imageCounterWrapper.className = "image-counter-wrapper";
+      container.appendChild(imageCounterWrapper);
 
-    const counterButtons = document.createElement("div");
-    counterButtons.className = "counter-buttons";
-    imageCounterWrapper.appendChild(counterButtons);
+      const imgElement = document.createElement("img");
+      imgElement.src = card.src; // Use card.src here
+      imgElement.alt = card.alt; // Use card.alt here
+      imageCounterWrapper.appendChild(imgElement);
 
-    const decrementButton = document.createElement("button");
-    decrementButton.textContent = "-";
-    decrementButton.onclick = () => decrementCounter(index);
-    counterButtons.appendChild(decrementButton);
+      const counterButtons = document.createElement("div");
+      counterButtons.className = "counter-buttons";
+      imageCounterWrapper.appendChild(counterButtons);
 
-    const incrementButton = document.createElement("button");
-    incrementButton.textContent = "+";
-    incrementButton.onclick = () => incrementCounter(index);
-    counterButtons.appendChild(incrementButton);
+      const decrementButton = document.createElement("button");
+      decrementButton.textContent = "-";
+      decrementButton.onclick = () => decrementCounter(index, card); // Pass card object
+      counterButtons.appendChild(decrementButton);
 
-    const counterDisplay = document.createElement("div");
-    counterDisplay.className = "counter";
-    counterDisplay.textContent = " " + image.counter;
-    imageCounterWrapper.appendChild(counterDisplay);
+      const incrementButton = document.createElement("button");
+      incrementButton.textContent = "+";
+      incrementButton.onclick = () => incrementCounter(index, card); // Pass card object
+      counterButtons.appendChild(incrementButton);
 
-    imageArea.appendChild(container);
-  });
+      const counterDisplay = document.createElement("div");
+      counterDisplay.className = "counter";
+      counterDisplay.textContent = " " + card.counter; // Use card.counter
+      imageCounterWrapper.appendChild(counterDisplay);
 
+      imageArea.appendChild(container);
+    });
+  }
+
+function filterCards() {
+    const searchTerm = searchBar.value.toLowerCase();
+    const selectedType = typeFilter.value;
+    const selectedColor = colorFilter.value;
+    const selectedLevel = levelFilter.value;
+    const selectedCost = costFilter.value;
+
+    const filteredCards = cardData.filter(card => {
+      const nameMatch = card.name.toLowerCase().includes(searchTerm);
+      const typeMatch = selectedType === "" || card.type === selectedType;
+      const colorMatch = selectedColor === "" || card.color === selectedColor;
+      const levelMatch = selectedLevel === "" || card.level.toString() === selectedLevel;
+      const costMatch = selectedCost === "" || card.cost.toString() === selectedCost;
+
+      return nameMatch && typeMatch && colorMatch && levelMatch && costMatch;
+    });
+
+    displayCards(filteredCards);
+  }
+
+  searchBar.addEventListener("input", filterCards);
+  typeFilter.addEventListener("change", filterCards);
+  colorFilter.addEventListener("change", filterCards);
+  levelFilter.addEventListener("change", filterCards);
+  costFilter.addEventListener("change", filterCards);
+  
   function incrementCounter(index) {
     imageData[index].counter++;
     updateCounterDisplay(index);
@@ -201,6 +238,8 @@
     const counterDisplay = imageArea.children[index].querySelector(".counter");
     counterDisplay.textContent = " " + imageData[index].counter;
   }
+
+  displayCards(cardData); // Initial display
 </script>
 
 </body>
