@@ -121,8 +121,26 @@
    level: 2,
    type: "unit"
   },
-  { src: "ST01-001_plus-Gundam.png", alt: "ST01-001+", counter: 0 },
-  { src: "ST01-002-GundamMA.png", alt: "ST01-002", counter: 0 },
+  { 
+   src: "ST01-001_plus-Gundam.png",
+   alt: "ST01-001+",
+   counter: 0,
+   name: "Gundam",
+   color: "blue",
+   cost: 3,
+   level: 2,
+   type: "unit"
+  },
+  { 
+   src: "ST01-002-GundamMA.png", 
+   alt: "ST01-002", 
+   counter: 0,
+   name: "Gundam (MA Form)",
+   color: "blue",
+   cost: 3,
+   level: 5,
+   type: "unit"
+  },
   { src: "ST01-005-GM.png", alt: "ST01-005", counter: 0 },
   { src: "ST01-007-AerialBoF.png", alt: "ST01-007", counter: 0 },
   { src: "ST01-008-Trainer.png", alt: "ST01-008", counter: 0 },
@@ -234,9 +252,9 @@ function filterCards() {
     } // If the counter is already 0, nothing happens
   }
 
-  function updateCounterDisplay(index) {
+  function updateCounterDisplay(index, card) { // Receive card object
     const counterDisplay = imageArea.children[index].querySelector(".counter");
-    counterDisplay.textContent = " " + imageData[index].counter;
+    counterDisplay.textContent = " " + card.counter; // Use card.counter
   }
 
   displayCards(cardData); // Initial display
