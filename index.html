@@ -1,264 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GCG Checker</title>
+<title>Card Display</title>
 <style>
-  body {
-    font-family: sans-serif;
-    text-align: center;
-    background: linear-gradient(to bottom, blue, white);
-  }
-  .image-container {
-    display: inline-block; /* Arrange containers horizontally */
-    margin: 20px; /* Space between containers */
-  }
-  .image-counter-wrapper {
-        display: flex;
-        flex-direction: column; /* Stack image and buttons */
-        align-items: center;
-    }
-  img {
-    max-width: 300px; /* Adjust as needed */
-    height: auto;
-  }
-  .counter-buttons {
-    display: flex;
-    margin-top: 10px;
-  }
-  button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .counter {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-   #search-bar {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      box-sizing: border-box; /* Include padding in width */
-  }
-
-  #filter-options {
-      display: flex;
-      flex-wrap: wrap; /* Allow filters to wrap */
-      justify-content: center; /* Center filters */
-      margin-bottom: 20px;
-  }
-
-  .filter-group {
-      margin: 10px;
-  }
-
-  .filter-group label {
-      display: block; /* Place labels above inputs */
+  .card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
   }
 </style>
 </head>
 <body>
-<header>
-  </header>
 
-<input type="text" id="search-bar" placeholder="Search...">
+<h1>Card Search</h1>
+<input type="text" id="searchInput" placeholder="Search cards...">
 
-<div id="filter-options">
-    <div class="filter-group">
-        <label for="type-filter">Type:</label>
-        <select id="type-filter">
-            <option value="">All</option>
-            <option value="action">Action</option>
-            <option value="base">Base</option>
-            <option value="pilot">Pilot</option>
-            <option value="unit">Unit</option>
-        </select>
-    </div>
-    <div class="filter-group">
-        <label for="color-filter">Color:</label>
-        <select id="color-filter">
-            <option value="">All</option>
-            <option value="white">White</option>
-            <option value="blue">Blue</option>
-            <option value="green">Green</option>
-            </select>
-    </div>
-    <div class="filter-group">
-        <label for="level-filter">Level:</label>
-        <select id="level-filter">
-            <option value="">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            </select>
-    </div>
-    <div class="filter-group">
-        <label for="cost-filter">Cost:</label>
-        <select id="cost-filter">
-            <option value="">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            </select>
-    </div>
-</div>
-
-<div id="image-area"></div>
+<div id="cardContainer"></div>
 
 <script>
-  const imageData = [
-  { 
-   src: "ST01-001-Gundam.png", 
-   alt: "ST01-001",
-   counter: 0,
-   name: "Gundam",
-   color: "blue",
-   cost: 3,
-   level: 2,
-   type: "unit"
+const cards = [
+  {
+    src: "ST01-001-Gundam.png",
+    alt: "ST01-001",
+    counter: 0,
+    name: "Gundam",
+    color: "blue",
+    cost: 3,
+    level: 4,
+    type: "unit"
   },
-  { 
-   src: "ST01-001_plus-Gundam.png",
-   alt: "ST01-001+",
-   counter: 0,
-   name: "Gundam",
-   color: "blue",
-   cost: 3,
-   level: 2,
-   type: "unit"
+  {
+    src: "ST01-001_plus-Gundam.png", // Example - Replace with your image paths
+    alt: "ST01-001+",
+    counter: 0,
+    name: "Gundam",
+    color: "blue",
+    cost: 3,
+    level: 4,
+    type: "unit"
   },
-  { 
-   src: "ST01-002-GundamMA.png", 
-   alt: "ST01-002", 
-   counter: 0,
-   name: "Gundam (MA Form)",
-   color: "blue",
-   cost: 3,
-   level: 5,
-   type: "unit"
+  {
+      src: "ST01-002-GundamMA.png", // Example
+      alt: "ST01-002",
+      counter: 0,
+      name: "Gundam (MA Form)",
+      color: "blue",
+      cost: 3,
+      level: 5,
+      type: "unit"
   },
-  { src: "ST01-005-GM.png", alt: "ST01-005", counter: 0 },
-  { src: "ST01-007-AerialBoF.png", alt: "ST01-007", counter: 0 },
-  { src: "ST01-008-Trainer.png", alt: "ST01-008", counter: 0 },
-  { src: "ST01-010-AmuroRay.png", alt: "ST01-010", counter: 0 },
-  { src: "ST01-011-Suletta.png", alt: "ST01-011", counter: 0 },
-  { src: "ST01-011_plus-Suletta.png", alt: "ST01-011+", counter: 0 },
-  { src: "ST01-012-Hayato.png", alt: "ST01-012", counter: 0 },
-  { src: "ST01-013-Kai.png", alt: "ST01-013", counter: 0 },
-  { src: "ST01-015-WhiteBase.png", alt: "ST01-015", counter: 0 },
-  { src: "ST01-016-Asticassia.png", alt: "ST01-016", counter: 0 },
-  { src: "ST02-001-WGundam.png", alt: "ST02-001", counter: 0 },
-  { src: "ST02-001_plus-WGundam.png", alt: "ST02-001+", counter: 0 },
-  { src: "ST02-002-WGundamBM.png", alt: "ST02-002", counter: 0 },
-  { src: "ST02-005-Maganac.png", alt: "ST02-005", counter: 0 },
-  { src: "ST02-010-Heero.png", alt: "ST02-010", counter: 0 },
-  { src: "ST02-012-Trowa.png", alt: "ST02-012", counter: 0 },
-  { src: "ST02-013-Quatre.png", alt: "ST02-013", counter: 0 },
-  { src: "ST02-015-Gabriel.png", alt: "ST02-015", counter: 0 },
-  { src: "ST03-007-ZakuI.png", alt: "ST03-007", counter: 0 },
-  { src: "ST03-008-ZakuII.png", alt: "ST03-008", counter: 0 },
-  { src: "ST03-011-Char.png", alt: "ST03-011", counter: 0 },
-  { src: "ST03-011_plus-Char.png", alt: "ST03-011+", counter: 0 },
-  { src: "ST03-016-Falmel.png", alt: "ST03-016", counter: 0 },
-  { src: "ST04-001-ASGundam.png", alt: "ST04-001", counter: 0 },
-  
+  // Add more card objects here...
 ];
 
-  const imageArea = document.getElementById("image-area");
-  const searchBar = document.getElementById("search-bar");
-  const typeFilter = document.getElementById("type-filter");
-  const colorFilter = document.getElementById("color-filter");
-  const levelFilter = document.getElementById("level-filter");
-  const costFilter = document.getElementById("cost-filter");
 
-  function displayCards(cards) {
-    imageArea.innerHTML = ""; // Clear existing cards
+function displayCards(cardsToDisplay) {
+  const cardContainer = document.getElementById('cardContainer');
+  cardContainer.innerHTML = ''; // Clear existing cards
 
-    cards.forEach((card, index) => {
-      const container = document.createElement("div");
-      container.className = "image-container";
+  cardsToDisplay.forEach(card => {
+    const cardDiv = document.createElement('div');
+    cardDiv.classList.add('card');
 
-      const imageCounterWrapper = document.createElement("div");
-      imageCounterWrapper.className = "image-counter-wrapper";
-      container.appendChild(imageCounterWrapper);
+    const img = document.createElement('img');
+    img.src = card.src;
+    img.alt = card.alt;
+    cardDiv.appendChild(img);
 
-      const imgElement = document.createElement("img");
-      imgElement.src = card.src; // Use card.src here
-      imgElement.alt = card.alt; // Use card.alt here
-      imageCounterWrapper.appendChild(imgElement);
+    const details = document.createElement('div');
+    details.innerHTML = `
+      <p>Name: ${card.name}</p>
+      <p>Color: ${card.color}</p>
+      <p>Cost: ${card.cost}</p>
+      <p>Level: ${card.level}</p>
+      <p>Type: ${card.type}</p>
+      <p>Counter: <span id="counter-${card.alt}">${card.counter}</span></p>
+      <button onclick="incrementCounter('${card.alt}')">+</button>
+      <button onclick="decrementCounter('${card.alt}')">-</button>
+    `;
+    cardDiv.appendChild(details);
+    cardContainer.appendChild(cardDiv);
+  });
+}
 
-      const counterButtons = document.createElement("div");
-      counterButtons.className = "counter-buttons";
-      imageCounterWrapper.appendChild(counterButtons);
 
-      const decrementButton = document.createElement("button");
-      decrementButton.textContent = "-";
-      decrementButton.onclick = () => decrementCounter(index, card); // Pass card object
-      counterButtons.appendChild(decrementButton);
 
-      const incrementButton = document.createElement("button");
-      incrementButton.textContent = "+";
-      incrementButton.onclick = () => incrementCounter(index, card); // Pass card object
-      counterButtons.appendChild(incrementButton);
+function incrementCounter(cardAlt) {
+    const counterSpan = document.getElementById(`counter-${cardAlt}`);
+    let counterValue = parseInt(counterSpan.textContent);
+    counterValue++;
+    counterSpan.textContent = counterValue;
 
-      const counterDisplay = document.createElement("div");
-      counterDisplay.className = "counter";
-      counterDisplay.textContent = " " + card.counter; // Use card.counter
-      imageCounterWrapper.appendChild(counterDisplay);
-
-      imageArea.appendChild(container);
-    });
-  }
-
-function filterCards() {
-    const searchTerm = searchBar.value.toLowerCase();
-    const selectedType = typeFilter.value;
-    const selectedColor = colorFilter.value;
-    const selectedLevel = levelFilter.value;
-    const selectedCost = costFilter.value;
-
-    const filteredCards = cardData.filter(card => {
-      const nameMatch = card.name.toLowerCase().includes(searchTerm);
-      const typeMatch = selectedType === "" || card.type === selectedType;
-      const colorMatch = selectedColor === "" || card.color === selectedColor;
-      const levelMatch = selectedLevel === "" || card.level.toString() === selectedLevel;
-      const costMatch = selectedCost === "" || card.cost.toString() === selectedCost;
-
-      return nameMatch && typeMatch && colorMatch && levelMatch && costMatch;
-    });
-
-    displayCards(filteredCards);
-  }
-
-  searchBar.addEventListener("input", filterCards);
-  typeFilter.addEventListener("change", filterCards);
-  colorFilter.addEventListener("change", filterCards);
-  levelFilter.addEventListener("change", filterCards);
-  costFilter.addEventListener("change", filterCards);
-  
-  function incrementCounter(index, card) { // Receive card object
-    card.counter++; // Update the counter on the card object
-    updateCounterDisplay(index, card); // Pass the card object to updateCounterDisplay
-  }
-
-  function decrementCounter(index, card) { // Receive card object
-    if (card.counter > 0) {
-      card.counter--;
-      updateCounterDisplay(index, card); // Pass the card object to updateCounterDisplay
+    //Update the card Object (Important for persistence if you were to save the data)
+    const cardIndex = cards.findIndex(card => card.alt === cardAlt);
+    if (cardIndex !== -1) {
+        cards[cardIndex].counter = counterValue;
     }
-  }
+}
+
+function decrementCounter(cardAlt) {
+    const counterSpan = document.getElementById(`counter-${cardAlt}`);
+    let counterValue = parseInt(counterSpan.textContent);
+    if (counterValue > 0) {
+        counterValue--;
+        counterSpan.textContent = counterValue;
+        const cardIndex = cards.findIndex(card => card.alt === cardAlt);
+        if (cardIndex !== -1) {
+            cards[cardIndex].counter = counterValue;
+        }
+    }
+}
 
 
-  function updateCounterDisplay(index, card) { // Receive card object
-    const counterDisplay = imageArea.children[index].querySelector(".counter");
-    counterDisplay.textContent = " " + card.counter; // Use card.counter
-  }
+const searchInput = document.getElementById('searchInput');
 
-  displayCards(cardData); // Initial display
+searchInput.addEventListener('input', function() {
+  const searchTerm = this.value.toLowerCase();
+  const filteredCards = cards.filter(card => {
+    // Customize your search criteria here (name, color, type, etc.)
+    return card.name.toLowerCase().includes(searchTerm) ||
+           card.color.toLowerCase().includes(searchTerm) ||
+           card.type.toLowerCase().includes(searchTerm); // Example: searching by name or color
+  });
+  displayCards(filteredCards);
+});
+
+
+displayCards(cards); // Initial display of all cards
+
 </script>
 
 </body>
