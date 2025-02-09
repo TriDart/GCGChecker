@@ -1129,29 +1129,29 @@ const setFilter = document.getElementById('setFilter'); // Get the select elemen
 const colorFilter = document.getElementById('colorFilter'); // Get color filter
 
 function filterCards() {
-  const searchTerm = searchInput.value.toLowerCase();
-  const selectedSet = setFilter.value;
-  const selectedColor = colorFilter.value; // Get selected color
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedSet = setFilter.value;
+    const selectedColor = colorFilter.value;
 
-  const filteredCards = cards.filter(card => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = `
-      <p>Name: ${card.name}</p>
-      <p>Color: ${card.color}</p>
-      <p>Cost: ${card.cost}</p>
-      <p>Level: ${card.level}</p>
-      <p>Type: ${card.type}</p>
-      <p>Set: ${card.set}</p>
-    `;
+    const filteredCards = cards.filter(card => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = `
+            <p>Name: ${card.name}</p>
+            <p>Color: ${card.color}</p>
+            <p>Cost: ${card.cost}</p>
+            <p>Level: ${card.level}</p>
+            <p>Type: ${card.type}</p>
+            <p>Set: ${card.set}</p>
+        `;
 
-    const textToSearch = tempDiv.textContent.toLowerCase();
-    const setSearch = card.set.toLowerCase().includes(selectedSet.toLowerCase()) || selectedSet === ""; // Improved Set Search
-    const setColor = card.color.toLowerCase() === selectedColor.toLowerCase() || selectedColor === ""; // Color filter
+        const textToSearch = tempDiv.textContent.toLowerCase();
+        const setSearch = card.set.toLowerCase().includes(selectedSet.toLowerCase()) || selectedSet === "";
+        const setColor = card.color.toLowerCase() === selectedColor.toLowerCase() || selectedColor === "";
 
-    return textToSearch.includes(searchTerm) && setSearch;
-  });
+        return textToSearch.includes(searchTerm) && setSearch && setColor; // Corrected: Added setColor back!
+    });
 
-  displayCards(filteredCards);
+    displayCards(filteredCards);
 }
 
 
