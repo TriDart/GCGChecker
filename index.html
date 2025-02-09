@@ -91,6 +91,14 @@
   <option value="Promos">Bandai Promos</option>
 </select>
 
+<select id="colorFilter">
+  <option value="">All Colors</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+  <option value="white">White</option>
+  <option value="token">Token</option>
+</select>  
+
 <div class="card-container" id="cardContainer"></div>
 
 <div id="overlay" class="overlay" style="display: none;">
@@ -1118,10 +1126,12 @@ function decrementCounter(cardAlt) {
 
 const searchInput = document.getElementById('searchInput');
 const setFilter = document.getElementById('setFilter'); // Get the select element
+const colorFilter = document.getElementById('colorFilter'); // Get color filter
 
 function filterCards() {
   const searchTerm = searchInput.value.toLowerCase();
   const selectedSet = setFilter.value;
+  const selectedColor = colorFilter.value; // Get selected color
 
   const filteredCards = cards.filter(card => {
     const tempDiv = document.createElement('div');
@@ -1136,6 +1146,7 @@ function filterCards() {
 
     const textToSearch = tempDiv.textContent.toLowerCase();
     const setSearch = card.set.toLowerCase().includes(selectedSet.toLowerCase()) || selectedSet === ""; // Improved Set Search
+    const setColor = card.color.toLowerCase() === selectedColor.toLowerCase() || selectedColor === ""; // Color filter
 
     return textToSearch.includes(searchTerm) && setSearch;
   });
@@ -1146,6 +1157,7 @@ function filterCards() {
 
 searchInput.addEventListener('input', filterCards);
 setFilter.addEventListener('change', filterCards);
+colorFilter.addEventListener('change', filterCards); // Event listener for color filter
 
 displayCards(cards); // Initial display
 </script>
