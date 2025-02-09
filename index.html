@@ -169,15 +169,23 @@ function decrementCounter(cardAlt) {
 const searchInput = document.getElementById('searchInput');
 
 searchInput.addEventListener('input', function() {
-  const searchTerm = this.value.toLowerCase();
-  const filteredCards = cards.filter(card => {
-    const detailsDiv = card.querySelector('.card-details'); //Get the hidden details
-    const textToSearch = detailsDiv.textContent.toLowerCase(); //Search all the hidden text
-    return textToSearch.includes(searchTerm);
-  });
-  displayCards(filteredCards);
-});
+    const searchTerm = this.value.toLowerCase();
+    const filteredCards = cards.filter(card => {
+        // Create a temporary element to hold the details for searching
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = `
+            <p>Name: ${card.name}</p>
+            <p>Color: ${card.color}</p>
+            <p>Cost: ${card.cost}</p>
+            <p>Level: ${card.level}</p>
+            <p>Type: ${card.type}</p>
+        `;
 
+        const textToSearch = tempDiv.textContent.toLowerCase();
+        return textToSearch.includes(searchTerm);
+    });
+    displayCards(filteredCards);
+});
 displayCards(cards); // Initial display
 
 </script>
