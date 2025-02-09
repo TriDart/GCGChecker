@@ -1145,10 +1145,14 @@ function filterCards() {
         `;
 
         const textToSearch = tempDiv.textContent.toLowerCase();
-        const setSearch = card.set.toLowerCase().includes(selectedSet.toLowerCase()) || selectedSet === "";
-        const setColor = card.color.toLowerCase() === selectedColor.toLowerCase() || selectedColor === "";
 
-        return textToSearch.includes(searchTerm) && setSearch && setColor; // Corrected: Added setColor back!
+        // Correctly handle comma-separated sets:
+        const cardSets = card.set.split(",").map(set => set.trim().toLowerCase()); // Split into array and trim whitespace
+        const setSearch = selectedSet === "" || cardSets.some(set => set.includes(selectedSet.toLowerCase()));
+
+        const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
+
+        return textToSearch.includes(searchTerm) && setSearch && setColor;
     });
 
     displayCards(filteredCards);
