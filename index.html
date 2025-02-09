@@ -80,6 +80,15 @@
 <h1>GCG Checker</h1>
 <input type="text" id="searchInput" placeholder="Search cards...">
 
+<select id="setFilter">
+  <option value="">All Sets</option>
+  <option value="Beta Edition">Beta Edition</option>
+  <option value="Starter Deck 01">Starter Deck 01</option>
+  <option value="Starter Deck 02">Starter Deck 02</option>
+  <option value="Starter Deck 03">Starter Deck 03</option>
+  <option value="Newtype Rising">Newtype Rising</option>
+</select>
+
 <div class="card-container" id="cardContainer"></div>
 
 <div id="overlay" class="overlay" style="display: none;">
@@ -99,7 +108,8 @@ const cards = [
     color: "blue",
     cost: 3,
     level: 4,
-    type: "unit"
+    type: "unit",
+    set: "Beta Edition, Starter Deck 01"
   },
   {
     src: "ST01-001_plus-Gundam.png", 
@@ -189,7 +199,7 @@ const cards = [
       color: "blue",
       cost: 1,
       level: 2,
-      type: "pilot, action"
+      type: "pilot, command"
   },
   {
       src: "ST01-013-Kai.png", 
@@ -199,7 +209,7 @@ const cards = [
       color: "blue ",
       cost: 1,
       level: 3,
-      type: "pilot, action"
+      type: "pilot, command"
   },
   {
       src: "ST01-015-WhiteBase.png", 
@@ -271,7 +281,86 @@ const cards = [
       level: 4,
       type: "pilot"
   },
-  
+  {
+      src: "ST02-012-Trowa.png", 
+      alt: "ST02-012",
+      counter: 0,
+      name: "Simultaneous Fire Trowa Barton",
+      color: "green",
+      cost: 1,
+      level: 4,
+      type: "pilot, command"
+  },
+  {
+      src: "ST02-013-Quatre.png", 
+      alt: "ST02-013",
+      counter: 0,
+      name: "Peaceful Timbre Quatre Raberba Winner",
+      color: "green",
+      cost: 1,
+      level: 4,
+      type: "pilot, command"
+  },
+  {
+      src: "ST02-015-Gabriel.png", 
+      alt: "ST02-015",
+      counter: 0,
+      name: "Saint Gabriel Institute",
+      color: "green",
+      cost: 2,
+      level: 2,
+      type: "base"
+  },
+  {
+      src: "ST03-007-ZakuI.png", 
+      alt: "ST03-007",
+      counter: 0,
+      name: "Zaku I",
+      color: "green",
+      cost: 1,
+      level: 1,
+      type: "unit"
+  },
+  {
+      src: "ST03-008-ZakuII.png", 
+      alt: "ST03-008",
+      counter: 0,
+      name: "Zaku II",
+      color: "green",
+      cost: 1,
+      level: 2,
+      type: "unit"
+  },
+  {
+      src: "ST03-011-Char.png", 
+      alt: "ST03-011",
+      counter: 0,
+      name: "Char Aznable",
+      color: "green",
+      cost: 1,
+      level: 3,
+      type: "pilot"
+  },
+  {
+      src: "ST03-011_plus-Char.png", 
+      alt: "ST03-011+",
+      counter: 0,
+      name: "Char Aznable",
+      color: "green",
+      cost: 1,
+      level: 3,
+      type: "pilot"
+  },
+  {
+      src: "ST03-016-Falmel.png", 
+      alt: "ST03-016",
+      counter: 0,
+      name: "Falmel",
+      color: "green",
+      cost: 2,
+      level: 3,
+      type: "base"
+  },
 ];
 
 function displayCards(cardsToDisplay) {
@@ -297,6 +386,7 @@ function displayCards(cardsToDisplay) {
       <p>Cost: ${card.cost}</p>
       <p>Level: ${card.level}</p>
       <p>Type: ${card.type}</p>
+      <p>Set: ${card.set}</p>
     `;
     
     cardDiv.appendChild(detailsDiv);
@@ -351,27 +441,37 @@ function decrementCounter(cardAlt) {
 }
 
 const searchInput = document.getElementById('searchInput');
+const setFilter = document.getElementById('setFilter'); // Get the select element
 
-searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-    const filteredCards = cards.filter(card => {
-        // Create a temporary element to hold the details for searching
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = `
-            <p>Name: ${card.name}</p>
-            <p>Color: ${card.color}</p>
-            <p>Cost: ${card.cost}</p>
-            <p>Level: ${card.level}</p>
-            <p>Type: ${card.type}</p>
-        `;
+function filterCards() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const selectedSet = setFilter.value;
 
-        const textToSearch = tempDiv.textContent.toLowerCase();
-        return textToSearch.includes(searchTerm);
-    });
-    displayCards(filteredCards);
-});
+  const filteredCards = cards.filter(card => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = `
+      <p>Name: ${card.name}</p>
+      <p>Color: ${card.color}</p>
+      <p>Cost: ${card.cost}</p>
+      <p>Level: ${card.level}</p>
+      <p>Type: ${card.type}</p>
+      <p>Set: ${card.set}</p>
+    `;
+
+    const textToSearch = tempDiv.textContent.toLowerCase();
+    const setSearch = card.set.toLowerCase().includes(selectedSet.toLowerCase()) || selectedSet === ""; // Improved Set Search
+
+    return textToSearch.includes(searchTerm) && setSearch;
+  });
+
+  displayCards(filteredCards);
+}
+
+
+searchInput.addEventListener('input', filterCards);
+setFilter.addEventListener('change', filterCards);
+
 displayCards(cards); // Initial display
-
 </script>
 
 </body>
