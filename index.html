@@ -39,6 +39,40 @@
       margin: 20px auto;
       display: block;
   }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure overlay is on top */
+  }
+
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative; /* For positioning the close button */
+  }
+
+  .modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -47,6 +81,13 @@
 <input type="text" id="searchInput" placeholder="Search cards...">
 
 <div class="card-container" id="cardContainer"></div>
+
+<div id="overlay" class="overlay" style="display: none;">
+  <div class="modal">
+    <img id="modalImage" src="" alt="Card Image">
+    <span class="close-button" onclick="closeModal()">&times;</span>
+  </div>
+</div>
 
 <script>
 const cards = [
@@ -103,7 +144,7 @@ const cards = [
 ];
 
 function displayCards(cardsToDisplay) {
-  const cardContainer = document.getElementById('cardContainer');
+ const cardContainer = document.getElementById('cardContainer');
   cardContainer.innerHTML = ''; // Clear existing cards
 
   cardsToDisplay.forEach(card => {
@@ -113,6 +154,7 @@ function displayCards(cardsToDisplay) {
     const img = document.createElement('img');
     img.src = card.src;
     img.alt = card.alt;
+    img.addEventListener('click', () => openModal(card.src)); // Add click listener
     cardDiv.appendChild(img);
 
     // Hidden details for search:
@@ -125,7 +167,9 @@ function displayCards(cardsToDisplay) {
       <p>Level: ${card.level}</p>
       <p>Type: ${card.type}</p>
     `;
+    
     cardDiv.appendChild(detailsDiv);
+    cardContainer.appendChild(cardDiv);
 
     const counterDiv = document.createElement('div'); //Separate div for the counter
     counterDiv.innerHTML = `
@@ -140,6 +184,15 @@ function displayCards(cardsToDisplay) {
   });
 }
 
+function openModal(imageSrc) {
+  document.getElementById('modalImage').src = imageSrc;
+  document.getElementById('overlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('overlay').style.display = 'none';
+}
+  
 function incrementCounter(cardAlt) {
     const counterSpan = document.getElementById(`counter-${cardAlt}`);
     let counterValue = parseInt(counterSpan.textContent);
