@@ -77,7 +77,7 @@
 </head>
 <body>
 
-<h1>GCG Checker UPDATED 0.3</h1>
+<h1>GCG Checker UPDATED 0.1.4</h1>
 <input type="text" id="searchInput" placeholder="Search cards...">
 
 <select id="setFilter">
@@ -1134,21 +1134,24 @@ function filterCards() {
     const selectedColor = colorFilter.value;
 
     const filteredCards = cards.filter(card => {
-        const lowerCaseSet = card.set.toLowerCase(); // Convert set to lowercase *immediately*
-
-        const textMatch = card.name.toLowerCase().includes(searchTerm) ||
-                         card.color.toLowerCase().includes(searchTerm) ||
-                         card.cost.toString().includes(searchTerm) ||
-                         card.level.toString().includes(searchTerm) ||
-                         card.type.toLowerCase().includes(searchTerm) ||
-                         lowerCaseSet.includes(searchTerm); // Use lowerCaseSet here
-
-        const cardSets = lowerCaseSet.split(",").map(set => set.trim()); // Use lowerCaseSet here
-        const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase())); // Lowercase inside some
-
+        const lowerCaseSet = card.set.toLowerCase();
+        const cardSets = lowerCaseSet.split(",").map(set => set.trim());
+        const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase()));
         const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
 
-        return textMatch && setSearch && setColor;
+        // Apply set and color filters FIRST
+        if (setSearch && setColor) { // Only proceed if set and color match
+            const textMatch = card.name.toLowerCase().includes(searchTerm) ||
+                            card.color.toLowerCase().includes(searchTerm) ||
+                            card.cost.toString().includes(searchTerm) ||
+                            card.level.toString().includes(searchTerm) ||
+                            card.type.toLowerCase().includes(searchTerm) ||
+                            lowerCaseSet.includes(searchTerm);
+
+            return textMatch; // THEN apply text search
+        } else {
+            return false; // If set or color doesn't match, card is filtered out
+        }
     });
 
     displayCards(filteredCards);
