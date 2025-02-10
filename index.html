@@ -1097,6 +1097,15 @@ function loadCountersFromCookies() {
     }
   }
 }
+
+const counterDiv = document.createElement('div');
+    counterDiv.classList.add('counter-div'); // Add the new class
+    counterDiv.innerHTML = `
+        <p><span id="counter-${card.alt}">${card.counter}</span></p>  </p>
+        <button onclick="incrementCounter('${card.alt}')">+</button>
+        <button onclick="decrementCounter('${card.alt}')">-</button>
+    `;
+    cardDiv.appendChild(counterDiv);
   
 function displayCards(cardsToDisplay) {
  const cardContainer = document.getElementById('cardContainer');
