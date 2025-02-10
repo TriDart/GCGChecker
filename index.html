@@ -77,7 +77,7 @@
 </head>
 <body>
 
-<h1>GCG Checker UPDATED 0.2</h1>
+<h1>GCG Checker UPDATED 0.3</h1>
 <input type="text" id="searchInput" placeholder="Search cards...">
 
 <select id="setFilter">
@@ -1134,15 +1134,17 @@ function filterCards() {
     const selectedColor = colorFilter.value;
 
     const filteredCards = cards.filter(card => {
-        const textMatch = card.name.toLowerCase().includes(searchTerm) || 
-                         card.color.toLowerCase().includes(searchTerm) ||
-                         card.cost.toString().includes(searchTerm) || // Convert cost to string for search
-                         card.level.toString().includes(searchTerm) || // Convert level to string for search
-                         card.type.toLowerCase().includes(searchTerm) ||
-                         card.set.toLowerCase().includes(searchTerm);
+        const lowerCaseSet = card.set.toLowerCase(); // Convert set to lowercase *immediately*
 
-        const cardSets = card.set.split(",").map(set => set.trim().toLowerCase());
-        const setSearch = selectedSet === "" || cardSets.some(set => set.includes(selectedSet.toLowerCase()));
+        const textMatch = card.name.toLowerCase().includes(searchTerm) ||
+                         card.color.toLowerCase().includes(searchTerm) ||
+                         card.cost.toString().includes(searchTerm) ||
+                         card.level.toString().includes(searchTerm) ||
+                         card.type.toLowerCase().includes(searchTerm) ||
+                         lowerCaseSet.includes(searchTerm); // Use lowerCaseSet here
+
+        const cardSets = lowerCaseSet.split(",").map(set => set.trim()); // Use lowerCaseSet here
+        const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase())); // Lowercase inside some
 
         const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
 
@@ -1151,6 +1153,7 @@ function filterCards() {
 
     displayCards(filteredCards);
 }
+
 
 
 searchInput.addEventListener('input', filterCards);
