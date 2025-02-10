@@ -111,6 +111,18 @@
     align-items: center; /* Vertically center */
     justify-content: center; /* Horizontally center */
   }
+
+  .filter-container { /* Container for filter elements */
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between elements */
+    margin-bottom: 10px; /* Space below the filter area */
+  }
+
+  .filter-container select, .filter-container button {
+    /* Style the select and button consistently if needed */
+  }
+  
 </style>
 </head>
 <body style="background-color: #252525;">
@@ -1344,6 +1356,17 @@ function filterCards() {
 
     displayCards(filteredCards);
 }
+
+const clearFiltersButton = document.getElementById('clearFilters');
+
+    clearFiltersButton.addEventListener('click', () => {
+      searchInput.value = ''; // Clear search input
+      setFilter.value = '';     // Reset set filter
+      colorFilter.value = '';   // Reset color filter
+      typeFilter.value = '';    // Reset type filter
+
+      filterCards(); // Reapply filters (which will now show all cards)
+    });
 
 window.addEventListener('DOMContentLoaded', (event) => {
   loadCountersFromCookies();
