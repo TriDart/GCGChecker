@@ -1046,7 +1046,32 @@ const cards = [
       set: "Beta Edition, Promos"
   },
 ];
+    // Finally done with cards, Ctrl+F for "Scrimble"
+function saveCountersToCookies() {
+  const counterData = {};
+  cards.forEach(card => {
+    counterData[card.alt] = card.counter;
+  });
+  document.cookie = `cardCounters=${JSON.stringify(counterData)}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`; // Long-lasting cookie
+}
 
+function loadCountersFromCookies() {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith('cardCounters=')) {
+      const counterData = JSON.parse(cookie.substring('cardCounters='.length));
+      for (const cardAlt in counterData) {
+        const cardIndex = cards.findIndex(card => card.alt === cardAlt);
+        if (cardIndex !== -1) {
+          cards[cardIndex].counter = counterData[cardAlt];
+        }
+      }
+      break; // Found the cookie, exit loop
+    }
+  }
+}
+  
 function displayCards(cardsToDisplay) {
  const cardContainer = document.getElementById('cardContainer');
   cardContainer.innerHTML = ''; // Clear existing cards
@@ -1109,6 +1134,7 @@ function incrementCounter(cardAlt) {
     if (cardIndex !== -1) {
         cards[cardIndex].counter = counterValue;
     }
+  saveCountersToCookies(); // Save after incrementing
 }
 
 function decrementCounter(cardAlt) {
@@ -1122,6 +1148,7 @@ function decrementCounter(cardAlt) {
             cards[cardIndex].counter = counterValue;
         }
     }
+  saveCountersToCookies();// Save after decrementing
 }
 
 const searchInput = document.getElementById('searchInput');
@@ -1157,7 +1184,15 @@ function filterCards() {
     displayCards(filteredCards);
 }
 
+window.addEventListener('DOMContentLoaded', (event) => {
+  loadCountersFromCookies();
+  displayCards(cards); // Display cards after loading counters
+});
 
+// Save counters when the page unloads (e.g., user closes the tab)
+window.addEventListener('beforeunload', (event) => {
+  saveCountersToCookies();
+});
 
 searchInput.addEventListener('input', filterCards);
 setFilter.addEventListener('change', filterCards);
