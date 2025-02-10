@@ -4,6 +4,11 @@
 <title>GCG Checker</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <style>
+  body {
+    background-color: #252525;
+    color: white; /* Set default text color to white */
+  }
+  
   .card-container {
     display: flex; /* Use flexbox for layout */
     flex-wrap: wrap; /* Allow wrapping to multiple rows */
@@ -73,6 +78,24 @@
     right: 10px;
     font-size: 20px;
     cursor: pointer;
+  }
+
+  .counter-div { /* New class for counter section */
+    display: flex; /* Use flexbox for counter elements */
+    align-items: center; /* Vertically center items */
+    gap: 5px; /* Add some space between counter and buttons */
+  }
+
+  .counter-div p {
+    margin: 0; /* Remove default margin from paragraph */
+  }
+
+  .counter-div button {
+    font-size: 1.2em; /* Increase button size */
+    padding: 5px 10px; /* Add padding to buttons */
+    border-radius: 5px; /* Round the buttons */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Indicate it's clickable */
   }
 </style>
 </head>
