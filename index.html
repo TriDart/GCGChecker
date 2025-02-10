@@ -1319,6 +1319,29 @@ function filterCards() {
         }
     });
 
+  const sortedCards = filteredCards.sort((a, b) => {
+    const aNameMatch = a.name.toLowerCase().includes(searchTerm);
+    const bNameMatch = b.name.toLowerCase().includes(searchTerm);
+    const aLinkMatch = a.link && a.link.toLowerCase().includes(searchTerm); // Check if link exists
+    const bLinkMatch = b.link && b.link.toLowerCase().includes(searchTerm);
+
+    if (aNameMatch && !bNameMatch) {
+        return -1; // a (name match) comes first
+    } else if (!aNameMatch && bNameMatch) {
+        return 1; // b (name match) comes first
+    } else if (aNameMatch && bNameMatch) {
+        return 0; // Both are name matches, maintain original order (or sort by something else)
+    } else if (aLinkMatch && !bLinkMatch) {
+        return -1; // a (link match) comes first
+    } else if (!aLinkMatch && bLinkMatch) {
+        return 1; // b (link match) comes first
+    } else if (aLinkMatch && bLinkMatch) {
+        return 0; // Both are link matches, maintain original order
+    } else {
+        return 0; // Neither is a name or link match, maintain original order
+    }
+});
+
     displayCards(filteredCards);
 }
 
