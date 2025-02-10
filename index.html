@@ -126,6 +126,14 @@
   <option value="Promos">Bandai Promos</option>
 </select>
 
+<select id="typeFilter">
+  <option value="">All Types</option>
+  <option value="unit">Unit</option>
+  <option value="pilot">Pilot</option>
+  <option value="base">Base</option>
+  <option value="command">Command</option>
+</select>  
+
 <select id="colorFilter">
   <option value="">All Colors</option>
   <option value="blue">Blue</option>
@@ -1190,11 +1198,13 @@ function decrementCounter(cardAlt) {
 const searchInput = document.getElementById('searchInput');
 const setFilter = document.getElementById('setFilter'); // Get the select element
 const colorFilter = document.getElementById('colorFilter'); // Get color filter
+const typeFilter = document.getElementById('typeFilter');
 
 function filterCards() {
     const searchTerm = searchInput.value.toLowerCase();
     const selectedSet = setFilter.value;
     const selectedColor = colorFilter.value;
+    const selectedType = typeFilter.value;
 
     const filteredCards = cards.filter(card => {
         const lowerCaseSet = card.set.toLowerCase();
@@ -1232,7 +1242,8 @@ window.addEventListener('beforeunload', (event) => {
 
 searchInput.addEventListener('input', filterCards);
 setFilter.addEventListener('change', filterCards);
-colorFilter.addEventListener('change', filterCards); // Event listener for color filter
+colorFilter.addEventListener('change', filterCards);// Event listener for color filter
+typeFilter.addEventListener('change', filterCards);
 
 displayCards(cards); // Initial display
 </script>
