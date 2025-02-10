@@ -1134,11 +1134,11 @@ function displayCards(cardsToDisplay) {
     cardContainer.appendChild(cardDiv);
 
    const counterDiv = document.createElement('div');
-    counterDiv.classList.add('counter-div'); // Add the new class
+    counterDiv.classList.add('counter-div');
     counterDiv.innerHTML = `
-        <p><span id="counter-${card.alt}">${card.counter}</span></p>  </p>
-        <button onclick="incrementCounter('${card.alt}')">+</button>
-        <button onclick="decrementCounter('${card.alt}')">-</button>
+      <p><span id="counter-${card.alt}" class="counter-text">${card.counter}</span></p>
+      <button class="counter-button" onclick="incrementCounter('${card.alt}')">+</button>
+      <button class="counter-button" onclick="decrementCounter('${card.alt}')">-</button>
     `;
     cardDiv.appendChild(counterDiv);
 
