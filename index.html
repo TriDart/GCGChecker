@@ -159,14 +159,16 @@
   <option value="token">Token</option>
 </select>  
 
-<div class="card-container" id="cardContainer"></div>
+ <button id="clearFilters">Clear Filters</button>
+  </div> <div class="card-container" id="cardContainer"></div>
 
-<div id="overlay" class="overlay" style="display: none;">
-  <div class="modal">
-    <img id="modalImage" src="" alt="Card Image">
-    <span class="close-button" onclick="closeModal()">&times;</span>
+  <div id="overlay" class="overlay" style="display: none;">
+    <div class="modal">
+      <img id="modalImage" src="" alt="Card Image">
+      <span class="close-button" onclick="closeModal()">&times;</span>
+    </div>
   </div>
-</div>
+
 
 <script>
 const cards = [
