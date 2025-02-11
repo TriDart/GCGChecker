@@ -1238,12 +1238,12 @@ function displayCards(cardsToDisplay) {
   cardsToDisplay.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
-    img.addEventListener('click', () => openModal(card));
+    
 
     const img = document.createElement('img');
     img.src = card.src;
     img.alt = card.alt;
-    img.addEventListener('click', () => openModal(card.src)); // Add click listener
+    img.addEventListener('click', () => openModal(card)); // Add click listener
     cardDiv.appendChild(img);
 
     // Hidden details for search:
