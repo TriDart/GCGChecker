@@ -94,8 +94,8 @@ h1 {
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  max-width: 90vw; /* Use viewport units for width */
-  max-height: 90vh; /* Use viewport units for height */
+  max-width: 50%; 
+  max-height: 90%; 
   overflow: auto;
   display: flex; /* Flexbox for image and text */
   align-items: center; /* Center vertically */
