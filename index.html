@@ -64,13 +64,24 @@
     padding: 20px;
     border-radius: 5px;
     position: relative; /* For positioning the close button */
+    display: flex; /* Enable Flexbox for the modal */
+    align-items: flex-start; /* Align items to the top */
+    
   }
 
   .modal img {
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
+    margin-right: 20px;
+    
   }
+
+  #modalText {
+  flex: 1; /* Allow text to take up remaining space */
+  color: black;
+  margin-top: 0; /* Remove top margin */
+}
 
   .close-button {
     position: absolute;
