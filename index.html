@@ -126,12 +126,7 @@
 </style>
 </head>
 <body style="background-color: #252525;">
-<div id="overlay" class="overlay" style="display: none;">
-    <div class="modal">
-      <img id="modalImage" src="" alt="Card Image">
-      <div id="modalText"> </div> <span class="close-button" onclick="closeModal()">&times;</span>
-    </div>
-  </div>
+
   
 </body>
 
@@ -1243,7 +1238,7 @@ function displayCards(cardsToDisplay) {
   cardsToDisplay.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
-    img.addEventListener('click', () => openModal(card));
+    
 
     const img = document.createElement('img');
     img.src = card.src;
@@ -1281,10 +1276,13 @@ function displayCards(cardsToDisplay) {
   });
 }
 
-function openModal(card) { // Pass the card object to openModal
-      document.getElementById('modalImage').src = card.src;
-      document.getElementById('overlay').style.display = 'flex';
-    }
+function openModal(imageSrc) {
+
+  document.getElementById('modalImage').src = imageSrc;
+
+  document.getElementById('overlay').style.display = 'flex';
+
+}
 
 function closeModal() {
   document.getElementById('overlay').style.display = 'none';
