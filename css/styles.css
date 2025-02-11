@@ -98,7 +98,8 @@ h1 {
   max-height: 90vh; /* Use viewport units for height */
   overflow: auto;
   display: flex; /* Flexbox for image and text */
-  align-items: flex-start;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
 }
 
 .modal img {
@@ -110,9 +111,10 @@ h1 {
 
 #modalText {
   flex: 1;
-  color: black;
+  color: white;
   margin-top: 0;
-  max-height: 90%;
+  overflow-y: auto; /* Add scroll for text if needed */
+  max-height: 90%; /* Text shouldn't exceed modal height */
 }
 
 .close-button {
@@ -124,7 +126,9 @@ h1 {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
   color: white;
   border-radius: 50%;
-  padding: 5px;
+  align-items: center; /* Center the modal in the overlay */
+  justify-content: center; /* Center the modal in the overlay */
+  padding-top: 0; /* Remove top padding */
 }
 
 /* Counter Styles */
