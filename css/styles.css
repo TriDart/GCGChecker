@@ -93,8 +93,8 @@ h1 {
   padding: 20px;
   border-radius: 5px;
   position: relative;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 90vw; /* Use viewport units for width */
+  max-height: 90vh; /* Use viewport units for height */
   overflow: auto;
   display: flex; /* Flexbox for image and text */
   align-items: flex-start;
@@ -111,6 +111,7 @@ h1 {
   flex: 1;
   color: black;
   margin-top: 0;
+  max-height: 90%;
 }
 
 .close-button {
