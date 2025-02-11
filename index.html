@@ -166,7 +166,7 @@
   <div id="overlay" class="overlay" style="display: none;">
     <div class="modal">
       <img id="modalImage" src="" alt="Card Image">
-      <span class="close-button" onclick="closeModal()">&times;</span>
+      <div id="modalText"> </div> <span class="close-button" onclick="closeModal()">&times;</span>
     </div>
   </div>
 
@@ -1238,7 +1238,7 @@ function displayCards(cardsToDisplay) {
   cardsToDisplay.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
-    
+    img.addEventListener('click', () => openModal(card));
 
     const img = document.createElement('img');
     img.src = card.src;
@@ -1276,11 +1276,21 @@ function displayCards(cardsToDisplay) {
   });
 }
 
-function openModal(imageSrc) {
+ function openModal(card) { // Pass the card object to openModal
+      document.getElementById('modalImage').src = card.src;
 
-  document.getElementById('modalImage').src = imageSrc;
-
-  document.getElementById('overlay').style.display = 'flex';
+      const modalText = document.getElementById('modalText');
+      modalText.innerHTML = `
+        <p>Name: ${card.name}</p>
+        <p>Color: ${card.color}</p>
+        <p>Cost: ${card.cost}</p>
+        <p>Level: ${card.level}</p>
+        <p>Type: ${card.type}</p>
+        <p>Set: ${card.set}</p>
+        <p>Link: ${card.link}</p>
+      `;
+   
+      document.getElementById('overlay').style.display = 'flex';
 
 }
 
