@@ -38,7 +38,9 @@
   <option value="token">Token</option>
 </select>  
 
- <button id="clearFilters">Clear Filters</button>
+<button id="clearFilters">Clear Filters</button>
+<button id="exportJSON">Export Counters</button>
+<input type="file" id="importJSON" accept=".json">
   </div> <div class="card-container" id="cardContainer"></div>
 
   <div id="overlay" class="overlay" style="display: none;">
@@ -1844,6 +1846,54 @@ colorFilter.addEventListener('change', filterCards);// Event listener for color 
 typeFilter.addEventListener('change', filterCards);
 
 displayCards(cards); // Initial display
+
+//EXPORT JSON
+document.getElementById('exportJSON').addEventListener('click', () => {
+  const counterData = {};
+  cards.forEach(card => {
+    counterData[card.alt] = card.counter;
+  });
+
+  const blob = new Blob([JSON.stringify(counterData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'gcg_counters.json';
+  a.click();
+
+  URL.revokeObjectURL(url);
+});
+
+//IMPORT JSON
+  document.getElementById('importJSON').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      for (const cardAlt in importedData) {
+        const cardIndex = cards.findIndex(card => card.alt === cardAlt);
+        if (cardIndex !== -1) {
+          cards[cardIndex].counter = importedData[cardAlt];
+          const counterSpan = document.getElementById(`counter-${cardAlt}`);
+          if (counterSpan) {
+            counterSpan.textContent = importedData[cardAlt];
+          }
+        }
+      }
+      saveCountersToCookies(); // Optional: persist after importing
+      alert("Counters imported successfully.");
+    } catch (err) {
+      alert("Invalid JSON file.");
+    }
+  };
+  reader.readAsText(file);
+});
+
+
 </script>
 
 </body>
