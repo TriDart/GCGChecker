@@ -170,8 +170,8 @@ h1 {
 <style>
   #importExportContainer {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 80px;
+    right: 80px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
