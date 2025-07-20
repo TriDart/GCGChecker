@@ -7,6 +7,27 @@
 <body style="background-color: #252525;">
 </body>
 
+<!-- Changelog Button -->
+<button id="changelogButton" style="position: absolute; top: 20px; left: 20px; z-index: 1000;">
+  Changelog
+</button>
+
+<div id="changelogModal" class="overlay" style="display: none;">
+  <div class="modal" style="max-width: 600px;">
+    <h2>Changelog</h2>
+    <div id="changelogContent" style="white-space: pre-wrap; text-align: left;">
+      <!-- Type changelog here -->
+      v0.7 -
+        - ST01, ST02, ST03, ST04 completed
+        - GD01 completed
+        - Gundam Heavyarms (GD01-034) art changed to Release art
+        - Gundam (MA form) (ST01-002) art changed to Release art
+      
+    </div>
+    <button onclick="closeChangelog()" style="margin-top: 20px;">Close</button>
+  </div>
+</div>
+  
 <h1>GCG Checker 0.7</h1>
 <input type="text" id="searchInput" placeholder="Card name or link requirement..">
 
@@ -2904,6 +2925,14 @@ document.getElementById('exportJSON').addEventListener('click', () => {
   reader.readAsText(file);
 });
 
+// Changelog script
+document.getElementById('changelogButton').addEventListener('click', () => {
+  document.getElementById('changelogModal').style.display = 'flex';
+});
+
+function closeChangelog() {
+  document.getElementById('changelogModal').style.display = 'none';
+}  
 
 </script>
 
