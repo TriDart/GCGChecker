@@ -32,6 +32,16 @@
 <h1>GCG Checker 0.7</h1>
 <input type="text" id="searchInput" placeholder="Card name or link requirement..">
 
+<div id="searchFields">
+  <label><input type="checkbox" value="name" checked> Name</label>
+  <label><input type="checkbox" value="link"> Link</label>
+  <label><input type="checkbox" value="cost"> Cost</label>
+  <label><input type="checkbox" value="level"> Level</label>
+  <label><input type="checkbox" value="type"> Type</label>
+  <label><input type="checkbox" value="color"> Color</label>
+  <label><input type="checkbox" value="set"> Set</label>
+</div>
+  
 <select id="setFilter">
   <option value="">All Sets</option>
   <option value="Beta Edition">Beta Edition</option>
@@ -89,7 +99,7 @@ const cards = [
     level: 4,
     type: "unit",
     set: "Beta Edition, Starter Deck 01",
-    link: "Amuro Ray"
+    link: "Amuro Ray",
   },
   {
     src: "ST01-001_plus-Gundam.png", 
@@ -2884,34 +2894,42 @@ const colorFilter = document.getElementById('colorFilter'); // Get color filter
 const typeFilter = document.getElementById('typeFilter');
 
 function filterCards() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const selectedSet = setFilter.value;
-    const selectedColor = colorFilter.value;
-    const selectedType = typeFilter.value;
+  const searchTerm = searchInput.value.toLowerCase();
+  const selectedSet = setFilter.value;
+  const selectedColor = colorFilter.value;
+  const selectedType = typeFilter.value;
 
-    const filteredCards = cards.filter(card => {
-        const lowerCaseSet = card.set.toLowerCase();
-        const cardSets = lowerCaseSet.split(",").map(set => set.trim());
-        const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase()));
-        const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
-        const setType = selectedType === "" || card.type.toLowerCase() === selectedType.toLowerCase();
+  // ✅ Get which checkboxes are checked
+  const selectedFields = Array.from(document.querySelectorAll('#searchFields input:checked')).map(cb => cb.value);
 
-        if (setSearch && setColor && setType) {
-            const textMatch = card.name.toLowerCase().includes(searchTerm) ||
-                card.color.toLowerCase().includes(searchTerm) ||
-                card.cost.toString().includes(searchTerm) ||
-                card.level.toString().includes(searchTerm) ||
-                card.type.toLowerCase().includes(searchTerm) ||
-                
-                lowerCaseSet.includes(searchTerm) ||// Keep this line
-                (card.link && card.link.toLowerCase().includes(searchTerm)); // Include link check HERE
-                
+  const filteredCards = cards.filter(card => {
+    const lowerCaseSet = card.set.toLowerCase();
+    const cardSets = lowerCaseSet.split(",").map(set => set.trim());
+    const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase()));
+    const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
+    const setType = selectedType === "" || card.type.toLowerCase() === selectedType.toLowerCase();
 
-            return textMatch; // Now the link check is part of the return value
-        } else {
-            return false;
+    if (setSearch && setColor && setType) {
+      const textMatch = selectedFields.some(field => {
+        switch (field) {
+          case "name": return card.name.toLowerCase().includes(searchTerm);
+          case "cost": return card.cost.toString().includes(searchTerm);
+          case "level": return card.level.toString().includes(searchTerm);
+          case "type": return card.type.toLowerCase().includes(searchTerm);
+          case "color": return card.color.toLowerCase().includes(searchTerm);
+          case "set": return lowerCaseSet.includes(searchTerm);
+          case "link": return card.link && card.link.toLowerCase().includes(searchTerm);
+          default: return false;
         }
-    });
+      });
+      return textMatch;
+    } else {
+      return false;
+    }
+  });
+
+  displayCards(filteredCards);
+}
 
   const sortedCards = filteredCards.sort((a, b) => {
     const aNameMatch = a.name.toLowerCase().includes(searchTerm);
@@ -3011,6 +3029,10 @@ function closeChangelog() {
   document.getElementById('changelogModal').style.display = 'none';
 }  
 
+document.querySelectorAll('#searchFields input').forEach(cb => {
+  cb.addEventListener('change', filterCards);
+}); // Search bar refilter
+  
 </script>
 
 </body>
