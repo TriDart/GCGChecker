@@ -23,18 +23,22 @@
         - Gundam Heavyarms (GD01-034) art changed to Release art
         - Gundam (MA form) (ST01-002) art changed to Release art
         - Tokens completed
+
+      v0.7.1 -
+        - Search bar gets added check boxes to filter your text searches
+        - Fixed multiple card information errors
       
     </div>
     <button onclick="closeChangelog()" style="margin-top: 20px;">Close</button>
   </div>
 </div>
   
-<h1>GCG Checker 0.7</h1>
+<h1>GCG Checker 0.7.1</h1>
 <input type="text" id="searchInput" placeholder="Card name or link requirement..">
 
 <div id="searchFields">
   <label><input type="checkbox" value="name" checked> Name</label>
-  <label><input type="checkbox" value="link"> Link</label>
+  <label><input type="checkbox" value="link" checked> Link</label>
   <label><input type="checkbox" value="cost"> Cost</label>
   <label><input type="checkbox" value="level"> Level</label>
   <label><input type="checkbox" value="type"> Type</label>
@@ -359,7 +363,7 @@ const cards = [
       counter: 0,
       name: "Gundam Sandrock",
       color: "green",
-      cost: 3,
+      cost: 2,
       level: 4,
       type: "unit",
       set: "Starter Deck 02",
