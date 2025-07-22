@@ -89,7 +89,8 @@ const cards = [
     level: 4,
     type: "unit",
     set: "Beta Edition, Starter Deck 01",
-    link: "Amuro Ray"
+    link: "Amuro Ray",
+    trait: "Earth Federation, White Base Team"
   },
   {
     src: "ST01-001_plus-Gundam.png", 
@@ -2807,6 +2808,7 @@ function displayCards(cardsToDisplay) {
       <p>Type: ${card.type}</p>
       <p>Set: ${card.set}</p>
       <p>Link: ${card.link}</p>
+      <p>Trait: ${card.trait || "—"}</p>
     `;
     
     cardDiv.appendChild(detailsDiv);
@@ -2901,7 +2903,8 @@ function filterCards() {
                 card.level.toString().includes(searchTerm) ||
                 card.type.toLowerCase().includes(searchTerm) ||
                 lowerCaseSet.includes(searchTerm) ||  // Keep this line
-                (card.link && card.link.toLowerCase().includes(searchTerm)); // Include link check HERE
+                (card.link && card.link.toLowerCase().includes(searchTerm)) // Include link check HERE
+                (card.trait && card.trait.toLowerCase().includes(searchTerm)); // <-- checks card traits
 
             return textMatch; // Now the link check is part of the return value
         } else {
