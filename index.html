@@ -43,7 +43,7 @@
   <label><input type="checkbox" value="level"> Level</label>
   <label><input type="checkbox" value="type"> Type</label>
   <label><input type="checkbox" value="color"> Color</label>
-  <label><input type="checkbox" value="set"> Set</label>
+  <!-- Set removed -->
 </div>
   
 <select id="setFilter">
@@ -2986,7 +2986,7 @@ function filterCards() {
           case "level": return card.level.toString().includes(searchTerm);
           case "type": return card.type.toLowerCase().includes(searchTerm);
           case "color": return card.color.toLowerCase().includes(searchTerm);
-          case "set": return lowerCaseSet.includes(searchTerm);
+          //set removed
           case "link": return card.link && card.link.toLowerCase().includes(searchTerm);
           default: return false;
         }
