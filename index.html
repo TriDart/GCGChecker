@@ -281,7 +281,7 @@ const cards = [
       color: "blue",
       cost: 1,
       level: 2,
-      type: "pilot, command",
+      type: ["pilot", "command"],
       set: "Beta Edition, Starter Deck 01",
       link: "N/A",
       trait: "Earth Federation, White Base Team"
@@ -294,7 +294,7 @@ const cards = [
       color: "blue",
       cost: 1,
       level: 3,
-      type: "pilot, command",
+      type: ["pilot", "command"],
       set: "Beta Edition, Starter Deck 01",
       link: "N/A",
       trait: "Earth Federation, White Base Team"
@@ -502,7 +502,7 @@ const cards = [
       color: "green",
       cost: 1,
       level: 4,
-      type: "pilot",
+      type: ["pilot", "command"],
       set: "Beta Edition, Starter Deck 02",
       link: "N/A",
       trait: "Operation Meteor"
@@ -515,7 +515,7 @@ const cards = [
       color: "green",
       cost: 1,
       level: 4,
-      type: "pilot",
+      type: ["pilot", "command"],
       set: "Beta Edition, Starter Deck 02",
       link: "N/A",
       trait: "Operation Meteor"
@@ -723,7 +723,7 @@ const cards = [
       color: "green",
       cost: 1,
       level: 2,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Starter Deck 03",
       link: "N/A",
       trait: "Neo Zeon"
@@ -749,7 +749,7 @@ const cards = [
       color: "green",
       cost: 1,
       level: 4,
-      type: "pilot",
+      type: ["pilot", "command"],
       set: "Starter Deck 03",
       link: "N/A",
       trait: "Zeon"
@@ -957,7 +957,7 @@ const cards = [
       color: "white",
       cost: 1,
       level: 2,
-      type: "pilot",
+      type: ["pilot", "command"],
       set: "Beta Edition, Starter Deck 04",
       link: "N/A",
       trait: "N/A"
@@ -970,7 +970,7 @@ const cards = [
       color: "red",
       cost: 1,
       level: 3,
-      type: "pilot",
+      type: ["pilot", "command"],
       set: "Starter Deck 04",
       link: "N/A",
       trait: "N/A"
@@ -2374,7 +2374,7 @@ const cards = [
       color: "blue",
       cost: 1,
       level: 2,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2400,7 +2400,7 @@ const cards = [
       color: "blue",
       cost: 1,
       level: 1,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2439,7 +2439,7 @@ const cards = [
       color: "green",
       cost: 2,
       level: 5,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2500,11 +2500,11 @@ const cards = [
       src: "GD01-110-RasidKurama.png", 
       alt: "GD01-110",
       counter: 0,
-      name: "Rashid's Orders Rasid Kurama",
+      name: "Rasid's Orders Rasid Kurama",
       color: "green",
       cost: 1,
       level: 3,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2530,7 +2530,7 @@ const cards = [
       color: "red",
       cost: 1,
       level: 6,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2543,7 +2543,7 @@ const cards = [
       color: "red",
       cost: 1,
       level: 3,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2556,7 +2556,7 @@ const cards = [
       color: "red",
       cost: 1,
       level: 1,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2582,7 +2582,7 @@ const cards = [
       color: "red",
       cost: 1,
       level: 2,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2634,7 +2634,7 @@ const cards = [
       color: "white",
       cost: 1,
       level: 2,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -2673,7 +2673,7 @@ const cards = [
       color: "white",
       cost: 1,
       level: 3,
-      type: "command",
+      type: ["pilot", "command"],
       set: "Newtype Rising",
       link: "N/A",
       trait: "N/A"
@@ -3144,7 +3144,10 @@ function filterCards() {
     const cardSets = lowerCaseSet.split(",").map(set => set.trim());
     const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase()));
     const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
-    const setType = selectedType === "" || card.type.toLowerCase() === selectedType.toLowerCase();
+    const setType = selectedType === "" ||
+  (Array.isArray(card.type)
+    ? card.type.map(t => t.toLowerCase()).includes(selectedType.toLowerCase())
+    : card.type.toLowerCase() === selectedType.toLowerCase());
 
     if (setSearch && setColor && setType) {
       const textMatch = selectedFields.some(field => {
@@ -3152,7 +3155,10 @@ function filterCards() {
           case "name": return card.name.toLowerCase().includes(searchTerm);
           case "cost": return card.cost.toString().includes(searchTerm);
           case "level": return card.level.toString().includes(searchTerm);
-          case "type": return card.type.toLowerCase().includes(searchTerm);
+          case "type":
+            return Array.isArray(card.type)
+              ? card.type.map(t => t.toLowerCase()).some(t => t.includes(searchTerm))
+              : card.type.toLowerCase().includes(searchTerm);
           case "color": return card.color.toLowerCase().includes(searchTerm);
           //set removed
           case "link": return card.link && card.link.toLowerCase().includes(searchTerm);
