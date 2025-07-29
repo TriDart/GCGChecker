@@ -3382,7 +3382,7 @@ function filterCards() {
     ? card.type.map(t => t.toLowerCase()).includes(selectedType.toLowerCase())
     : card.type.toLowerCase() === selectedType.toLowerCase());
 
-    if (setSearch && setColor && setType) {
+    if (setSearch && setColor && setType && setArt) {
       const textMatch = selectedFields.some(field => {
         switch (field) {
           case "name": return card.name.toLowerCase().includes(searchTerm);
