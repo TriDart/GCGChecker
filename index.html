@@ -3366,7 +3366,7 @@ function filterCards() {
   const selectedSet = setFilter.value;
   const selectedColor = colorFilter.value;
   const selectedType = typeFilter.value;
-  const artFilter = artFilter.value;
+  const selectedArt = artFilter.value;
 
   // ✅ Get which checkboxes are checked
   const selectedFields = Array.from(document.querySelectorAll('#searchFields input:checked')).map(cb => cb.value);
@@ -3376,6 +3376,7 @@ function filterCards() {
     const cardSets = lowerCaseSet.split(",").map(set => set.trim());
     const setSearch = selectedSet === "" || cardSets.some(set => set.toLowerCase().includes(selectedSet.toLowerCase()));
     const setColor = selectedColor === "" || card.color.toLowerCase() === selectedColor.toLowerCase();
+    const setArt = selectedArt === "" || card.art === selectedArt;
     const setType = selectedType === "" ||
   (Array.isArray(card.type)
     ? card.type.map(t => t.toLowerCase()).includes(selectedType.toLowerCase())
@@ -3394,6 +3395,7 @@ function filterCards() {
           case "color": return card.color.toLowerCase().includes(searchTerm);
           //set removed
           case "link": return card.link && card.link.toLowerCase().includes(searchTerm);
+          case "trait": return card.trait && card.trait.toLowerCase().includes(searchTerm);
           default: return false;
         }
       });
@@ -3422,7 +3424,7 @@ searchInput.addEventListener('input', filterCards);
 setFilter.addEventListener('change', filterCards);
 colorFilter.addEventListener('change', filterCards);// Event listener for color filter
 typeFilter.addEventListener('change', filterCards);
-artFilter.addEverntListener('change', filterCards);
+artFilter.addEventListener('change', filterCards);
 
 displayCards(cards); // Initial display
 
