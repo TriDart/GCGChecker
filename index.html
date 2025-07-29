@@ -3236,6 +3236,12 @@ const clearFiltersButton = document.getElementById('clearFilters');
       typeFilter.value = '';    // Reset type filter
       artFilter.value = '';     // Reset art filter
 
+       // Clear all checked checkboxes inside #searchFields
+  const checkboxes = document.querySelectorAll('#searchFields input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+      
       filterCards(); // Reapply filters (which will now show all cards)
     });
   
