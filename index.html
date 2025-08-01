@@ -17,10 +17,7 @@
     <h2>Changelog</h2>
     <div id="changelogContent" style="white-space: pre-wrap; text-align: left;">
       <!-- Type changelog here -->
-      v0.7.1 -
-        - Search bar gets added check boxes to filter your text searches
-        - Fixed multiple card information errors
-
+      
       v0.7.2 - 
         - Added new Art dropdown! Cards can now be searched by their art type, seperating all variations of cards
         - Traits can now be searched by, and have a checkbox
@@ -34,6 +31,11 @@
         - Beta cards split from standard arts
         - New Participation and Winner Pack 01s added
         - New and future promos added
+
+      v0.7.4 - 
+        - Cookies removed, replaced with local storage
+        - Im sorry
+        - Fixed multiple card information errors
         
       
     </div>
@@ -41,7 +43,7 @@
   </div>
 </div>
   
-<h1>GCG Checker 0.7.3</h1>
+<h1>GCG Checker 0.7.4</h1>
 <input type="text" id="searchInput" placeholder="Card name or link requirement..">
 
 <div id="searchFields">
@@ -5775,12 +5777,12 @@ const cards = [
   },
 ];
     // Finally done with cards, Ctrl+F for "Scrimble"
-function saveCountersToCookies() {
+function saveCountersToStorage() {
   const counterData = {};
   cards.forEach(card => {
-    counterData[card.alt] = card.counter;
+    counterData[card.alt] = { counter: card.counter };
   });
-  document.cookie = `cardCounters=${JSON.stringify(counterData)}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`; // Long-lasting cookie
+  localStorage.setItem('cardCounters', JSON.stringify(counterData));
 }
 
 const clearFiltersButton = document.getElementById('clearFilters');
@@ -5808,20 +5810,20 @@ const clearFiltersButton = document.getElementById('clearFilters');
       filterCards(); // Reapply filters (which will now show all cards)
     });
   
-function loadCountersFromCookies() {
-  const cookies = document.cookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
-    if (cookie.startsWith('cardCounters=')) {
-      const counterData = JSON.parse(cookie.substring('cardCounters='.length));
-      for (const cardAlt in counterData) {
-        const cardIndex = cards.findIndex(card => card.alt === cardAlt);
-        if (cardIndex !== -1) {
-          cards[cardIndex].counter = counterData[cardAlt];
-        }
+function loadCountersFromStorage() {
+  const storedData = localStorage.getItem('cardCounters');
+  if (!storedData) return;
+
+  try {
+    const counterData = JSON.parse(storedData);
+    for (const cardAlt in counterData) {
+      const cardIndex = cards.findIndex(card => card.alt === cardAlt);
+      if (cardIndex !== -1) {
+        cards[cardIndex].counter = counterData[cardAlt].counter;
       }
-      break; // Found the cookie, exit loop
     }
+  } catch (e) {
+    console.error("Error parsing saved counter data:", e);
   }
 }
   
@@ -5907,7 +5909,7 @@ function incrementCounter(cardAlt) {
     if (cardIndex !== -1) {
         cards[cardIndex].counter = counterValue;
     }
-  saveCountersToCookies(); // Save after incrementing
+  saveCountersToStorage(); // Save after incrementing
 }
 
 function decrementCounter(cardAlt) {
@@ -5921,7 +5923,7 @@ function decrementCounter(cardAlt) {
             cards[cardIndex].counter = counterValue;
         }
     }
-  saveCountersToCookies();// Save after decrementing
+  saveCountersToStorage();// Save after decrementing
 }
 
 const searchInput = document.getElementById('searchInput');
@@ -5980,13 +5982,13 @@ function filterCards() {
   
 
 window.addEventListener('DOMContentLoaded', (event) => {
-  loadCountersFromCookies();
+  loadCountersFromStorage();
   displayCards(cards); // Display cards after loading counters
 });
 
 // Save counters when the page unloads (e.g., user closes the tab)
 window.addEventListener('beforeunload', (event) => {
-  saveCountersToCookies();
+  saveCountersToStorage();
 });
 
 searchInput.addEventListener('input', filterCards);
@@ -6033,7 +6035,7 @@ document.getElementById('exportJSON').addEventListener('click', () => {
           }
         }
       }
-      saveCountersToCookies(); // Optional: persist after importing
+      saveCountersToStorage(); // Optional: persist after importing
       alert("Counters imported successfully.");
     } catch (err) {
       alert("Invalid JSON file.");
